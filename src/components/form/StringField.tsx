@@ -1,5 +1,6 @@
 import { InputHTMLAttributes } from "react";
 import { UseFormRegisterReturn } from "react-hook-form";
+import { fieldWrapperClassname } from "./styles";
 
 interface StringFieldProps extends InputHTMLAttributes<HTMLInputElement> {
   id: string;
@@ -14,7 +15,7 @@ export function StringField({
   ...props
 }: StringFieldProps) {
   return (
-    <div>
+    <div className={fieldWrapperClassname}>
       <label htmlFor={id}>{label}</label>
 
       <input id={id} {...props} {...registration} />

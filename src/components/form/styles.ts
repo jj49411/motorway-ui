@@ -1,0 +1,8 @@
+import { css } from "@emotion/css";
+
+export const fieldWrapperClassname = css`
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  width: 100%;
+`;
