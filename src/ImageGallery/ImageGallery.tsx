@@ -1,23 +1,17 @@
-import { css } from "@emotion/css";
 import { Image } from "../data";
 import { useImages } from "./useImages";
 import ImageButton from "./ImageButton";
 import { useState } from "react";
 import ImageDialog from "./ImageDialog";
-
-const gridClassname = css`
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 8px;
-  padding: 8px;
-`;
+import { gridClassname } from "./styles";
+import GallerySkeleton from "./GallerySkeleton";
 
 export default function ImageGallery() {
   const { data: images, isLoading, isError } = useImages();
 
   const [selectedImage, setSelectedImage] = useState<Image | null>(null);
 
-  if (isLoading) return <p>Loading...</p>; // TODO: skeleton
+  if (isLoading) return <GallerySkeleton />;
   if (isError) return <p>Failed to load images.</p>;
 
   return (
