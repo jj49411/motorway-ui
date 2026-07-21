@@ -6,6 +6,10 @@ const imageDialogClassname = css`
   border: none;
   border-radius: 4px;
   padding: 8px;
+
+  ::backdrop {
+    background-color: rgba(0, 0, 0, 0.5);
+  }
 `;
 
 const imageClassname = css`

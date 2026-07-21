@@ -1,6 +1,11 @@
 import { css } from "@emotion/css";
 import { Image as ImageType } from "../data";
 
+const imageButtonClassname = css`
+  background: transparent;
+  border: none;
+`;
+
 const imageClassname = css`
   aspect-ratio: 1 / 1;
   object-fit: cover;
@@ -20,7 +25,11 @@ interface ImageButtonProps {
 
 export default function ImageButton({ image, handleClick }: ImageButtonProps) {
   return (
-    <button key={image.id} onClick={handleClick}>
+    <button
+      key={image.id}
+      onClick={handleClick}
+      className={imageButtonClassname}
+    >
       <Image image={image} />
     </button>
   );
