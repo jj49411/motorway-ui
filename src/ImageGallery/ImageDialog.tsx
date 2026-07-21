@@ -19,12 +19,24 @@ const imageClassname = css`
   margin-top: 8px;
 `;
 
+const buttonControlClassname = css`
+  display: flex;
+  justify-content: space-between;
+`;
+
 interface ImageDialogProps {
   image: Image;
   onClose: () => void;
+  onPrev?: () => void;
+  onNext?: () => void;
 }
 
-export default function ImageDialog({ image, onClose }: ImageDialogProps) {
+export default function ImageDialog({
+  image,
+  onClose,
+  onPrev,
+  onNext,
+}: ImageDialogProps) {
   const dialogRef = useRef<HTMLDialogElement>(null);
 
   useEffect(() => {
@@ -36,9 +48,30 @@ export default function ImageDialog({ image, onClose }: ImageDialogProps) {
     onClose();
   }
 
+  function handleKeyDown(e: React.KeyboardEvent) {
+    if (e.key === "ArrowRight" && onNext) onNext();
+    if (e.key === "ArrowLeft" && onPrev) onPrev();
+  }
+
   return (
-    <dialog ref={dialogRef} className={imageDialogClassname} onCancel={onClose}>
-      <button onClick={handleClose}>Close</button>
+    <dialog
+      ref={dialogRef}
+      className={imageDialogClassname}
+      onCancel={onClose}
+      onKeyDown={handleKeyDown}
+    >
+      <div className={buttonControlClassname}>
+        <button onClick={handleClose}>Close</button>
+
+        <div>
+          <button onClick={onPrev} disabled={!onPrev}>
+            Prev
+          </button>
+          <button onClick={onNext} disabled={!onNext}>
+            Next
+          </button>
+        </div>
+      </div>
 
       <img
         src={`${image.url}.jpg`}
