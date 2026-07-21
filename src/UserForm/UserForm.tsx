@@ -1,6 +1,21 @@
 import { useForm, useWatch } from "react-hook-form";
 import { StringField } from "../components/form/StringField";
 import { RangeField } from "../components/form/RangeField";
+import { css } from "@emotion/css";
+
+const formClassname = css`
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+`;
+
+const submitButtonClassname = css`
+  background-color: #ffe14c;
+  padding: 10px 30px;
+  cursor: pointer;
+  border: 1px #ffe14c solid;
+  border-radius: 4px;
+`;
 
 interface FormValues {
   name: string;
@@ -38,7 +53,11 @@ export default function UserForm() {
   }
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)} noValidate>
+    <form
+      onSubmit={handleSubmit(onSubmit)}
+      noValidate
+      className={formClassname}
+    >
       <StringField
         id="name"
         label="Name"
@@ -101,7 +120,11 @@ export default function UserForm() {
         registration={register("salary")}
       />
 
-      <button type="submit" disabled={isSubmitting}>
+      <button
+        type="submit"
+        disabled={isSubmitting}
+        className={submitButtonClassname}
+      >
         Submit
       </button>
     </form>
