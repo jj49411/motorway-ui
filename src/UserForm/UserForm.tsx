@@ -16,8 +16,15 @@ const gbpFormatter = new Intl.NumberFormat("en-GB", {
   maximumFractionDigits: 0,
 });
 
+const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+
 export default function UserForm() {
-  const { register, control } = useForm<FormValues>({
+  const {
+    register,
+    control,
+    handleSubmit,
+    formState: { errors, isSubmitting },
+  } = useForm<FormValues>({
     defaultValues: { salary: 0 },
   });
 
@@ -26,29 +33,62 @@ export default function UserForm() {
     name: "salary",
   });
 
+  function onSubmit(data: FormValues) {
+    console.log(`Form submitted with data: ${data}`);
+  }
+
   return (
-    <form>
-      <StringField id="name" label="Name" registration={register("name")} />
+    <form onSubmit={handleSubmit(onSubmit)} noValidate>
+      <StringField
+        id="name"
+        label="Name"
+        registration={register("name", { required: "Name is required" })}
+        error={errors.name?.message}
+        required
+      />
 
       <StringField
         id="email"
         type="email"
         label="Email"
-        registration={register("email")}
+        registration={register("email", {
+          required: "Email is required",
+          pattern: {
+            value: emailRegex,
+            message: "Invalid email address",
+          },
+        })}
+        error={errors.email?.message}
+        required
       />
 
       <StringField
         id="dateOfBirth"
         type="date"
         label="Date of birth"
-        registration={register("dateOfBirth")}
+        registration={register("dateOfBirth", {
+          required: "Date of birth is required",
+          validate: (value) => {
+            const selectedDate = new Date(value);
+            const today = new Date();
+
+            if (selectedDate < today) return true;
+            return "Date of birth must be in the past";
+          },
+        })}
+        error={errors.dateOfBirth?.message}
+        required
       />
 
       <StringField
         id="favouriteColour"
         type="text"
         label="Favourite colour"
-        registration={register("favouriteColour")}
+        registration={register("favouriteColour", {
+          required: "Favourite colour is required",
+        })}
+        error={errors.favouriteColour?.message}
+        required
       />
 
       <RangeField
@@ -60,6 +100,10 @@ export default function UserForm() {
         currentValue={gbpFormatter.format(currentSalary)}
         registration={register("salary")}
       />
+
+      <button type="submit" disabled={isSubmitting}>
+        Submit
+      </button>
     </form>
   );
 }
