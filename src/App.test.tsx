@@ -10,4 +10,6 @@ describe("App", () => {
     const headingElement = screen.getByText(/Motorway UI/i);
     expect(headingElement).toBeInTheDocument();
   });
+
+  // TODO: test tabs
 });
