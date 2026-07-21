@@ -1,11 +1,11 @@
-import './App.css';
+import "./App.css";
+import ImageGallery from "./ImageGallery/ImageGallery";
 
-const App = () => {
+export default function App() {
   return (
-    <div className='app'>
+    <div className="app">
       <h1>Image Gallery</h1>
+      <ImageGallery />
     </div>
   );
 }
-
-export default App;

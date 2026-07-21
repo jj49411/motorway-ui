@@ -13,7 +13,7 @@ interface User {
   total_photos: number;
 }
 
-interface Image {
+export interface Image {
   id: string;
   created_at: string;
   updated_at: string;
