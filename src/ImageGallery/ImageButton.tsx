@@ -44,6 +44,7 @@ function Image({ image }: ImageProps) {
   const jpgUrl = `${image.url}.jpg`;
 
   return (
+    // serve webp formats and fall back to jpg
     <picture>
       <source srcSet={webpUrl} type="image/webp" />
       <img

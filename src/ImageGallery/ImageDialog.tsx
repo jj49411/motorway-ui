@@ -40,7 +40,7 @@ export default function ImageDialog({
   const dialogRef = useRef<HTMLDialogElement>(null);
 
   useEffect(() => {
-    dialogRef.current?.showModal();
+    dialogRef.current?.showModal(); // display dialog in the top layer and enable backdrop
   }, [image]);
 
   function handleClose() {
@@ -57,7 +57,7 @@ export default function ImageDialog({
     <dialog
       ref={dialogRef}
       className={imageDialogClassname}
-      onCancel={onClose}
+      onCancel={onClose} // catch the escape key event
       onKeyDown={handleKeyDown}
     >
       <div className={buttonControlClassname}>

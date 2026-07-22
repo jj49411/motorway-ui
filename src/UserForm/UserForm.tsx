@@ -43,6 +43,7 @@ export default function UserForm() {
     defaultValues: { salary: 0 },
   });
 
+  // watch salary changes, re-render and display slider value
   const currentSalary = useWatch({
     control,
     name: "salary",
