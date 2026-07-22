@@ -12,7 +12,13 @@ A React application featuring a car image gallery and a user form.
 Run `npm run test`.
 
 ## Screenshots
+<img width="1312" height="807" alt="Screenshot 2026-07-22 at 16 55 14" src="https://github.com/user-attachments/assets/bf306dfc-f4c1-4042-8df8-74a4c1905f25" />
 
+<img width="1315" height="820" alt="Screenshot 2026-07-22 at 16 56 04" src="https://github.com/user-attachments/assets/3bd262df-e23a-406a-89fc-7ca689c9aa69" />
+
+<img width="1308" height="811" alt="Screenshot 2026-07-22 at 16 56 37" src="https://github.com/user-attachments/assets/f8ea339e-ab03-4cfb-a871-d4112d5808a6" />
+
+<img width="1315" height="809" alt="Screenshot 2026-07-22 at 16 57 04" src="https://github.com/user-attachments/assets/76134177-793c-450a-9f7f-ee1a4394d2df" />
 
 ## Key Decisions
 
@@ -52,9 +58,9 @@ The image modal utilises the <dialog> element. It provides native focus trapping
 
 
 ## Future Improvements
-- Server-Side Performance Optimisation
+- Server-Side Performance Optimisation: I kept the scope of this task strictly to the frontend, leaving the provided Express server untouched. To resolve the intentional network delay on the API, I would implement a simple cache variable/`Map()` on the server to store the JSON response and skip the timeout for the subsequent requests. Also, add a `Cache-Control` header on the response so the browser knows to cache the data locally. 
 
-- Testing: The current tests verify the critical user flows, including form validation, image rendering, and modal navigation. The next step is to expand coverage to edge cases. This includes testing the tab navigation logic, the `GallerySkeleton` loading states, and simulating API failure states (e.g. 500 errors) via MSW.
+- Testing: The current tests verify the critical user flows, including form validation, image rendering, and modal navigation. The next step is to expand coverage to edge cases. This includes testing the tab navigation logic, the `GallerySkeleton` loading states, and simulating API failure (like 500 errors) via MSW.
 
 - Modal UX: The user experience of the image dialog can be improved by moving the "Previous" and "Next" navigation buttons to the left and right sides of the full-size image. This provides a more standard gallery feel.
 
