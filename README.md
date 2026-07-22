@@ -1,86 +1,60 @@
 # Motorway UI Test
 
-Welcome to the Motorway UI technical test. This test focuses on user experience, and your skills with HTML, CSS, a11y and leveraging browser APIs.
+A React application featuring a car image gallery and a user form.
 
-## Set up
+## Getting Started
 
-This repo is a vite app and an Express server which serves a JSON feed of images.
+1. Clone the repo and run `npm ci`.
+2. Run `npm run dev:all` so both the server and vite app run concurrently.
 
-- Clone the repo and run `npm ci`
-- Then run `npm run dev:all` so both the server and vite app run concurrently.
+## Running the Tests
 
-### Note
+Run `npm run test`.
 
-- The vite client app uses proxy to serve images from the server. You can therefore simply fetch for `/images` and the server will return a JSON object with the image URLs.
+## Screenshots
 
-- Feel free to modify or install whatever code you feel is necessary. If installing packages which are wrappers for native browsers APIs please leave a comment explaining why.
 
-## Expected Deliverables
+## Key Decisions
 
-For this test, you should provide:
+#### 1. Data Fetching
+Use TanStack Query to manage the image fetching logic. It provides automatic caching, background refetching, and simplified loading and error states. It ensures the application remains highly performant and does not over-fetch data from the Motorway API.
 
-1. An image gallery UI with the features you've implemented
-1. A form with the specified fields
-1. A brief explanation of your approach and any decisions you made (can be included as comments in your code)
-1. Performance and UX considerations
+#### 2. Form Validation
+Use React Hook Form for form state and validation. By relying on uncontrolled components, it prevents the entire form from re-rendering every time a user types. It also makes setting up custom validation rules a lot cleaner.
 
-## Evaluation Criteria
+#### 3. Native Dialogs
 
-Your submission will be evaluated based on:
+The image modal utilises the <dialog> element. It provides native focus trapping, keyboard navigation (such as the Escape key to close), and proper screen reader support without relying on heavy third-party modal libraries.
 
-- Code quality and organization
-- UI/UX design and responsiveness
-- Performance considerations
-- Form implementation
-- Accessibility considerations
-- Creativity in presenting and manipulating images
-- Testing and error handling
+#### 4. Styling
+- Use Emotion (CSS-in-JS) to keep styles scoped and co-located with their components, which makes the codebase much easier to manage.
+- Use Clsx to construct class names conditionally, specifically for toggling the active states between the Gallery and Form tabs.
 
-## Submission
+#### 5. Testing
+- Set up MSW (Mock Service Worker) for API requests during testing. This lets the tests mimic a real browser environment and ensures the `ImageGallery` renders predictably with strictly typed mock data.
+- A global test-utils configuration automatically wraps tested components in the required Context Providers (like `QueryClientProvider`), keeping the actual test files clean and DRY.
+ 
+#### 6. Structure and Workflow
+[Image Gallery]
+- Group all the gallery-related code into a `src/ImageGallery/` folder.
+- Extract the data fetching into a custom `useImages` hook.
+- The main `ImageGallery` component coordinates the data and renders the grid, showing a `GallerySkeleton` while the network request is pending.
+- Create an `ImageButton` component for the individual grid items. This wraps a dedicated `Image` component that leverages the semantic <picture> tag to serve WebP formats with a JPG fallback, alongside native lazy loading (loading="lazy") to keep the initial render fast.
+- Build an `ImageDialog` component to handle the full-size image view and the previous/next navigation logic.
 
-Please submit your completed test by either:
+[User Form]
+- Add a `UserForm` component in `src/UserForm/`.
+- Add generic `StringField` and `RangeField` components under `src/components/form/` and a `styles.ts` file for shared styles.
+- Implement custom validation with React Hook Form, validate on form submission and display error messages.
 
-- Sharing a GitHub repository with your code
-- Creating a zip file of your project and sending it to us
+[Navigation]
+- Implement a simple tab interface at the top level to let users switch between the Image Gallery and the User Form.
 
-## Tasks
 
-### 1. UI development
+## Future Improvements
+- Server-Side Performance Optimisation
 
-Create a responsive UI to display the images fetched from locally served API.
+- Testing: The current tests verify the critical user flows, including form validation, image rendering, and modal navigation. The next step is to expand coverage to edge cases. This includes testing the tab navigation logic, the `GallerySkeleton` loading states, and simulating API failure states (e.g. 500 errors) via MSW.
 
-The aim is to demonstrate your experience and knowledge of HTML, CSS, JS, data fetching and React features; and demonstrate creative thinking in how images can be presented and manipulated.
+- Modal UX: The user experience of the image dialog can be improved by moving the "Previous" and "Next" navigation buttons to the left and right sides of the full-size image. This provides a more standard gallery feel.
 
-Images aren't optimised and their dimensions are varied, there are .jpg and .webp versions on s3, so you will need to take this into account.
-
-#### Some ideas to get you started
-
-- Resizable thumbnails
-- Modal to review full size images
-- Image effects or filters
-- Lazy loading
-
-### 2. Performance
-
-The API that is returning images is deliberately randomly slow to mimic the varied latency of real world Internet. What can you do to mitigate the effects of this for the users? Think as broadly as possible, and consider the whole user experience. You own both the client and the server, so you can make changes to either.
-
-### 3. Forms
-
-One of the oldest yet trickiest parts of web development is forms, so we’d like to see how you handle them.
-
-Add a form to your app with the following fields. The form doesn't need to submit to anywhere, but must validate on the client.
-
-- [ ] Name
-- [ ] Email
-- [ ] Date of birth
-- [ ] Favourite colour
-- [ ] Salary (using a range input)
-
-## Time allowed
-
-We appreciate that your time is valuable and recommend you not spend more than 2-3 hours on these tasks.
-
-## Notes
-
-The goal of the test is to prove your understanding of the concepts of modern HTML/CSS/JS, but not to produce something production ready or pixel perfect.
-Your work will be tested in the browser of your choice, so please specify this when submitting. This can include pre-release browsers such as Chrome Canary or Safari Technology Preview if you want to work with experimental features.
